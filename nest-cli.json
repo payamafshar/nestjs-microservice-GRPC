@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/fishoping/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "assets": [
+      "**/*.proto"
+    ],
+    "watchAssets": true,
+    "webpack": true,
+    "tsConfigPath": "apps/fishoping/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/fishoping",
+  "projects": {
+    "fishoping": {
+      "type": "application",
+      "root": "apps/fishoping",
+      "entryFile": "main",
+      "sourceRoot": "apps/fishoping/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/fishoping/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
+      }
+    }
+  }
+}
