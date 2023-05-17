@@ -23,6 +23,6 @@ export class AuthService {
   }
 
   validate({ token }: ValidateRequestDto): Promise<ValidateResponse> {
-    return null;
+    return undefined;
   }
 }
