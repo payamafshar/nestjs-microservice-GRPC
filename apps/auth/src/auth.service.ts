@@ -5,9 +5,11 @@ import {
   ValidateRequestDto,
 } from './auth.dto/auth.dto';
 import { LoginResponse, RegisterResponse, ValidateResponse } from './auth.pb';
+import { DatabaseService } from '@app/common/database/database.service';
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly databaseService: DatabaseService) {}
   async register({
     email,
     password,
