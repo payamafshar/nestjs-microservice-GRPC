@@ -9,7 +9,7 @@ import { DatabaseService } from '@app/common/database/database.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor() {}
   async register({
     email,
     password,

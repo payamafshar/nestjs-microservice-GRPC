@@ -5,6 +5,8 @@ import { Transport } from '@nestjs/microservices';
 import { ClientsModule } from '@nestjs/microservices';
 import { protobufPackage } from 'apps/auth/src/auth.pb';
 import * as path from 'path';
+import { DatabaseModule } from '@app/common';
+import { DatabaseService } from '@app/common/database/database.service';
 
 @Module({
   imports: [
@@ -13,13 +15,15 @@ import * as path from 'path';
         name: protobufPackage,
         transport: Transport.GRPC,
         options: {
+          url: '0.0.0.0:5052',
           package: protobufPackage,
           protoPath: path.join(__dirname, '../../proto/auth.proto'),
         },
       },
     ]),
+    DatabaseModule,
   ],
   controllers: [AuthGateWayController],
-  providers: [AuthGateWayService],
+  providers: [AuthGateWayService, DatabaseService],
 })
 export class AuthGateWayModule {}

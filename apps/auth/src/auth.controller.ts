@@ -1,4 +1,4 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller, Inject, UseInterceptors } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import {
   LoginRequestDto,
@@ -12,15 +12,15 @@ import {
   ValidateResponse,
 } from './auth.pb';
 import { AuthService } from './auth.service';
+import { Metadata } from '@grpc/grpc-js';
+import { GrpcCookieInterceptor } from './auth.dto/interceptors/grpcCookieInterceptor';
 
 @Controller()
 export class AuthController {
-  @Inject(AuthService)
-  private readonly service: AuthService;
+  @Inject(AuthService) private readonly service: AuthService;
 
   @GrpcMethod(AUTH_SERVICE_NAME, 'Register')
-  register(payload: RegisterRequestDto): Promise<RegisterResponse> {
-    console.log(payload);
+  async register(payload: RegisterRequestDto): Promise<RegisterResponse> {
     return this.service.register(payload);
   }
 

@@ -1,3 +1,4 @@
+import { IsString } from 'class-validator';
 import { LoginRequest, RegisterRequest, ValidateRequest } from './../auth.pb';
 
 export class LoginRequestDto implements LoginRequest {
@@ -7,8 +8,10 @@ export class LoginRequestDto implements LoginRequest {
 }
 
 export class RegisterRequestDto implements RegisterRequest {
+  @IsString()
   public readonly email: string;
 
+  @IsString()
   public readonly password: string;
 }
 

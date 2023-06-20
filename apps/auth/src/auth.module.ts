@@ -5,8 +5,8 @@ import { DatabaseModule } from '@app/common';
 import { DatabaseService } from '@app/common/database/database.service';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [],
   controllers: [AuthController],
-  providers: [AuthService, DatabaseService],
+  providers: [AuthService],
 })
 export class AuthModule {}
