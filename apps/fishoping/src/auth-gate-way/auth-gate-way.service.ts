@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Inject,
   Injectable,
+  NotFoundException,
   OnModuleInit,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -14,18 +15,15 @@ import * as jwt from 'jsonwebtoken';
 import { LoginUserDto } from './dtos/loginuser.dto';
 
 @Injectable()
-export class AuthGateWayService implements OnModuleInit {
-  authService: AuthController;
+export class AuthGateWayService  {
+  proto: AuthController;
 
   constructor(
-    @Inject(protobufPackage) private client: ClientGrpc,
     private readonly databaseService: DatabaseService,
     private readonly configService: ConfigService,
   ) {}
+  
 
-  onModuleInit() {
-    this.authService = this.client.getService<AuthController>('AuthService');
-  }
   async registerUser(body: RegisterDto) {
     const { email, password, username } = body;
 
@@ -48,6 +46,14 @@ export class AuthGateWayService implements OnModuleInit {
     return token;
   }
 
+  async findUserById(id: number) {
+    if (!id) return null;
+    const user = await this.databaseService.user.findUnique({
+      where: { id },
+    });
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
   async login(body: LoginUserDto) {
     const { email, username, password } = body;
 

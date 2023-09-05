@@ -10,7 +10,7 @@ import { DatabaseService } from '@app/common/database/database.service';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'apps/fishoping/auth.env',
+      envFilePath: 'apps/fishoping/auth-gateway.env',
     }),
   ],
   controllers: [AppController],

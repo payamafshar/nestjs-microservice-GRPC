@@ -1,36 +1,16 @@
-import { Controller, Inject, UseInterceptors } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import {
-  LoginRequestDto,
-  RegisterRequestDto,
-  ValidateRequestDto,
-} from './auth.dto/auth.dto';
-import {
-  AUTH_SERVICE_NAME,
-  RegisterResponse,
-  LoginResponse,
-  ValidateResponse,
-} from './auth.pb';
+import { AUTH_SERVICE_NAME, RegisterResponse } from './auth.pb';
 import { AuthService } from './auth.service';
-import { Metadata } from '@grpc/grpc-js';
-import { GrpcCookieInterceptor } from './auth.dto/interceptors/grpcCookieInterceptor';
+import { RegisterUserPayload } from './types';
 
 @Controller()
 export class AuthController {
-  @Inject(AuthService) private readonly service: AuthService;
-
+  constructor(private readonly service: AuthService) {}
   @GrpcMethod(AUTH_SERVICE_NAME, 'Register')
-  async register(payload: RegisterRequestDto): Promise<RegisterResponse> {
-    return this.service.register(payload);
-  }
+  async register(payload: RegisterUserPayload): Promise<RegisterResponse> {
+    console.log(payload)
+    return  this.service.regesterUser(payload)
 
-  @GrpcMethod(AUTH_SERVICE_NAME, 'Login')
-  private login(payload: LoginRequestDto): Promise<LoginResponse> {
-    return this.service.login(payload);
-  }
-
-  @GrpcMethod(AUTH_SERVICE_NAME, 'Validate')
-  private validate(payload: ValidateRequestDto): Promise<ValidateResponse> {
-    return this.service.validate(payload);
   }
 }
