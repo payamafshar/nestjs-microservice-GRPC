@@ -4,6 +4,8 @@ import { AuthGateWayModule } from '../src/auth-gate-way/auth-gate-way.module';
 import { DatabaseModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseService } from '@app/common/database/database.service';
+import { User } from '@prisma/client';
+
 @Module({
   imports: [
     AuthGateWayModule,

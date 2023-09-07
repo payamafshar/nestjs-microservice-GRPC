@@ -1,13 +1,11 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module} from '@nestjs/common';
 import { AuthGateWayController } from './auth-gate-way.controller';
 import { AuthGateWayService } from './auth-gate-way.service';
 import { Transport } from '@nestjs/microservices';
 import { ClientsModule } from '@nestjs/microservices';
-import { protobufPackage } from 'apps/auth/src/auth.pb';
-import * as path from 'path';
-import { AuthWithCookie, DatabaseModule } from '@app/common';
 import { DatabaseService } from '@app/common/database/database.service';
 import { AUTH_PACKAGE_NAME, AUTH_SERVICE_NAME } from './auth-gate-way.pb';
+import { DatabaseModule } from '@app/common';
 
 @Module({
   imports: [

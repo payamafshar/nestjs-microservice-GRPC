@@ -1,9 +1,9 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import {BadRequestException} from '@nestjs/common'
 import { DatabaseService } from '@app/common/database/database.service';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { RegisterUserPayload } from './types';
+import { LoginUserPayload, RegisterUserPayload, ValidateUserPayload , IJwtVerify } from './types';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +30,48 @@ export class AuthService {
       { expiresIn: this.configService.get<string>('JWT_EXPIRATION') },
     );
 
-    return { status: HttpStatus.CREATED, error: null };
+    return { token , status: HttpStatus.CREATED, error: null };
   
   }
+
+  async loginUser(payload:LoginUserPayload) {
+    const { email, username, password } = payload;
+
+    if (!email && !username) {
+      throw new BadRequestException('you must enter email or password');
+    }
+
+    const user = await this.databaseService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user || user.password != password) {
+      throw new BadRequestException('Invalid credentials');
+    }
+
+    const token = jwt.sign(
+      { id: user.id },
+      this.configService.get('JWT_SECRET'),
+      { expiresIn: this.configService.get('JWT_EXPIRATION') },
+    );
+    return { token , status: HttpStatus.OK, error: null };
+  }
+
+  async validateUser ({token}:ValidateUserPayload) {
+
+    const decoded =  jwt.verify(token , this.configService.get('JWT_SECRET'))  as IJwtVerify
+
+    if(!decoded) return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], user: null };
+
+    const user = await this.databaseService.user.findUnique({where:{id:Number(decoded.id)}})
+
+    if(!user) return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], user: null };
+
+    return { status: HttpStatus.OK, error: null, user };
+  }
 }
+
+
+

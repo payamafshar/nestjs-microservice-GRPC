@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { AUTH_SERVICE_NAME, RegisterResponse } from './auth.pb';
 import { AuthService } from './auth.service';
-import { RegisterUserPayload } from './types';
+import { LoginUserPayload, RegisterUserPayload, ValidateUserPayload } from './types';
 
 @Controller()
 export class AuthController {
@@ -12,5 +12,14 @@ export class AuthController {
     console.log(payload)
     return  this.service.regesterUser(payload)
 
+  }
+  @GrpcMethod(AUTH_SERVICE_NAME, 'Login')
+  async login(payload: LoginUserPayload) {
+    console.log(payload)
+    return  this.service.loginUser(payload)
+  }
+  @GrpcMethod(AUTH_SERVICE_NAME, 'Validate')
+  private validate(payload: ValidateUserPayload){
+    return this.service.validateUser(payload);
   }
 }
