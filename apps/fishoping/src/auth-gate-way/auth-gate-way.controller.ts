@@ -35,6 +35,7 @@ export class AuthGateWayController implements OnModuleInit {
   async loginUser(
     @Body() loginDto: LoginDto,
   ) {
+    console.log(loginDto)
     return this.service.login(loginDto)
   }
 }

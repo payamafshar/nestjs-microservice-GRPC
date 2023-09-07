@@ -35,15 +35,15 @@ export class AuthService {
   }
 
   async loginUser(payload:LoginUserPayload) {
-    const { email, username, password } = payload;
+    const { email, password } = payload;
 
-    if (!email && !username) {
-      throw new BadRequestException('you must enter email or password');
+    if (!email ) {
+      throw new BadRequestException('you must enter email or username');
     }
 
     const user = await this.databaseService.user.findUnique({
       where: {
-        email,
+       email ,
       },
     });
 

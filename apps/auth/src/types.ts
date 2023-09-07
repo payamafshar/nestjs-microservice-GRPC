@@ -5,7 +5,6 @@ export type RegisterUserPayload = {
 }
 
 export type LoginUserPayload = {
-    username?:string,
     password:string,
     email?:string
 }
