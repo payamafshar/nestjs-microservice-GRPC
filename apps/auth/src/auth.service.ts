@@ -62,15 +62,15 @@ export class AuthService {
   async validateUser ({token}:ValidateUserPayload) {
 
     const decoded =  jwt.verify(token , this.configService.get('JWT_SECRET'))  as IJwtVerify
-
     if(!decoded) return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], user: null };
-
-    const user = await this.databaseService.user.findUnique({where:{id:Number(decoded.id)}})
-
+   //@ts-ignore
+    const user = await this.databaseService.user.findUnique({where:{id : decoded.id}})
+    console.log(user)
     if(!user) return { status: HttpStatus.FORBIDDEN, error: ['Token is invalid'], user: null };
 
     return { status: HttpStatus.OK, error: null, user };
   }
+
 }
 
 
