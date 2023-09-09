@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import {BadRequestException} from '@nestjs/common'
 import { DatabaseService } from '@app/common/database/database.service';
 import { ConfigService } from '@nestjs/config';
