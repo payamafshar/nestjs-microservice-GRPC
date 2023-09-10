@@ -22,10 +22,30 @@ model User {
   created_at DateTime @default(now())
 
   updated_at DateTime @updatedAt
+
+  order Order[]
 }
 
-model Data {
+model Order {
   id Int @id @default(autoincrement())
 
-  some String
+  quantity Int
+
+  user User @relation(fields: [userId], references: [id])
+
+  userId Int
+
+  product Product @relation(fields: [productId], references: [id])
+
+  productId Int @unique
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  price Int
+
+  order Order?
 }
