@@ -1,5 +1,11 @@
+import { Product, User } from "@prisma/client"
+
 export type CreateOrderPayload = {
-    quantity:number
-    productId:number
-    userId:number
+    productId: number
+    userId: number
+}
+export type CreateOrderResponse = {
+    quantity: number,
+    userId: number,
+    productId: number,
 }
